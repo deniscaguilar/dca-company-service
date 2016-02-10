@@ -23,7 +23,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     private static final Logger log = LoggerFactory.getLogger(CompanyServiceImpl.class);
 
-    private CompanyRepository companyRepository;
+    private final CompanyRepository companyRepository;
 
     @Autowired
     public CompanyServiceImpl(CompanyRepository companyRepository) {
@@ -39,13 +39,14 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-//TODO: CRIAR EXCEPTION
+    @Transactional(readOnly = true)
     public Company findById(Long id) {
         Company company = companyRepository.findOne(id);
         return Optional.ofNullable(company).orElseThrow(ResourceNotFoundException::new);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ListCompany findAll() {
         long count = companyRepository.count();
         return new ListCompany(Lists.newArrayList(companyRepository.findAll()), count);
