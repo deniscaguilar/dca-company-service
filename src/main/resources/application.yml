@@ -1,0 +1,9 @@
+spring:
+  data:
+    rest:
+      base-path: /
+  mvc:
+    locale: pt_BR
+    date-format: dd/MM/yyyy
+  thymeleaf:
+    cache: false

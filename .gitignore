@@ -1,0 +1,8 @@
+# Package files #
+*.jar
+
+# IDE #
+target/
+*.iml
+*.class
+.idea
