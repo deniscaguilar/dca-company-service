@@ -9,17 +9,17 @@
     </layout>
   </appender>
   
-  <logger name="org.apache" level="warn"/>
-  <logger name="org.springframework" level="error"/>
-  <logger name="org.springframework.web" level="error"/>
-  <logger name="org.hibernate.tool.hbm2ddl" level="warn"/>
-  <logger name="org.hibernate" level="info"/>
-  <logger name="org.hibernate.validator" level="warn"/>
-  <logger name="org.hibernate.SQL" level="info"/>
-  <logger name="com.dca" level="info" />
+  <logger name="org.apache" level="WARN"/>
+  <logger name="org.springframework" level="WARN"/>
+  <logger name="org.springframework.web" level="WARN"/>
+  <logger name="org.hibernate.tool.hbm2ddl" level="WARN"/>
+  <logger name="org.hibernate" level="WARN"/>
+  <logger name="org.hibernate.validator" level="WARN"/>
+  <logger name="org.hibernate.SQL" level="INFO"/>
+  <logger name="com.dca.company" level="INFO" />
   
   <root level="ERROR">
     <appender-ref ref="CONSOLE"/>
   </root>
-  
+
 </configuration>

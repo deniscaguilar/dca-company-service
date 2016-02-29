@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+  layout:decorator="layout">
+  <body>
+    
+    <h1 layout:fragment="header" th:utext="#{company.list.title}">companies</h1>
+    <div layout:fragment="content" class="container">
+      <div class="pull-right">
+        <a href="form.html" th:href="@{/(form)}">#{company.insert}</a>
+      </div>
+      
+      <table id="datatable" class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <td th:text="#{company.list.logradouro}">logradouro</td>
+            <td th:text="#{company.list.numero}">numero</td>
+            <td th:text="#{company.list.complemento}">complemento</td>
+            <td th:text="#{company.list.cep}">cep</td>
+            <td th:text="#{company.list.bairro}">bairro</td>
+            <td th:text="#{company.list.cidade}">cidade</td>
+            <td></td>
+            <td></td>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+
+    <script layout:fragment="jsOnPage">
+    /*<![CDATA[*/
+        var parameters;
+        
+        function buildTable() {
+          clearMessages();
+          $.ajax({
+            url: "/company",
+            dataType: 'json',
+            type: 'GET',
+            success: function(json) {
+              var html = "";
+              $("#datatable").find("tbody").html("");
+              if (!json.items) {
+            	  return;
+              }
+              
+              $.each(json.items, function(index, data){
+                html += "<tr>";
+                html += "<td><a href='"+ (data.id ? "?formulario&id="+ data.id : "") +"' title='Editar Endereço (" + (data.id ? data.id : "") + ")'>" + (data.name ? data.name : "" ) + " </a></td>";
+                html += "<td>" + (data.address? data.address : "") + "</td>";
+                html += "<td>" + (data.city ? data.city : "")  + "</td>";
+                html += "<td>" + (data.country ? data.country : "" ) + "</td>";
+                html += "<td>" + (data.email ? data.email : "" ) + "</td>";
+                html += "<td>" + (data.phone ? data.phone : "" ) + "</td>";
+                html += "<td><a href='"+ (data.id ? "?detalhe&id="+ data.id : "") +"' title='Visualizar Endereço (" + (data.id ? data.id : "") + ")'><span class='glyphicon glyphicon-search' aria-hidden='true'></span></a></td>";
+                html += "<td><a href='#' onclick='delEndereco("+ (data.id ? data.id : "") +")' title='Remover Endereço (" + (data.id ? data.id : "") + ")'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></a></td>";
+                html += "</tr>"
+              });
+              
+        	  $("#datatable").find("tbody").append(html);
+            },
+            error: function(data){
+              showError("Register not found");
+              console.log(data);
+            }
+          });
+        }
+        
+        function delEndereco(enderecoId) {
+          if (!enderecoId) {
+            return;
+          }
+          clearMessages();
+          $.ajax({
+            url: "/company/"+enderecoId,
+            dataType: 'json',
+            type: 'DELETE',
+            success: function(json) {
+              buildTable();
+              showSuccess('Endereço foi excluído!');
+            },
+            error: function(data){
+              showError("Não foi possivel remover endereço: "+data.statusText);
+              console.log(data);
+            }
+          });
+        }
+        
+        $(document).ready(function() {
+          buildTable();
+          activeNavigation('company');
+        });
+    /*]]>*/
+    </script>
+  </body>
+</html>

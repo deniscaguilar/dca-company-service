@@ -3,7 +3,7 @@ spring:
     rest:
       base-path: /
   mvc:
-    locale: pt_BR
-    date-format: dd/MM/yyyy
+    locale: en
+    date-format: yyyy/MM/dd
   thymeleaf:
     cache: false

@@ -15,12 +15,12 @@ public class ListCompany implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final List<Company> itens = new ArrayList<>();
+    private final List<Company> items = new ArrayList<>();
 
     private final Long count;
 
-    public ListCompany(List<Company> itens, Long count) {
-        this.itens.addAll(itens);
+    public ListCompany(List<Company> items, Long count) {
+        this.items.addAll(items);
         this.count = count;
     }
 

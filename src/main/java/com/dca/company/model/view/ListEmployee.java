@@ -15,12 +15,12 @@ public class ListEmployee implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final List<Employee> itens = new ArrayList<>();
+    private final List<Employee> items = new ArrayList<>();
 
-    private final Long count;
+    private final int count;
 
-    public ListEmployee(List<Employee> itens, Long count) {
-        this.itens.addAll(itens);
+    public ListEmployee(List<Employee> items, int count) {
+        this.items.addAll(items);
         this.count = count;
     }
 

@@ -46,10 +46,10 @@ public class Company implements Serializable {
     private String country;
 
     @Pattern(regexp = ".+@.+\\.[a-z]+", message = "{company.email.invalido}")
-    @Column(nullable = false, length = 100)
+    @Column(length = 100)
     private String email;
 
     @Column(length = 20)
-    private Long phone;
+    private String phone;
 
 }
