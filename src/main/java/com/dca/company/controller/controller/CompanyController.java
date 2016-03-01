@@ -1,11 +1,11 @@
 package com.dca.company.controller.controller;
 
+import com.dca.company.model.view.Message;
 import com.dca.company.model.entity.Company;
 import com.dca.company.model.view.ListCompany;
 import com.dca.company.service.CompanyService;
 import com.google.common.base.Preconditions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -57,9 +57,9 @@ public class CompanyController extends BaseController {
     }
 
     @RequestMapping(value="/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity delete(@PathVariable Long id) {
+    public ResponseEntity<Message> delete(@PathVariable Long id) {
         companyService.delete(id);
-        return new ResponseEntity(HttpStatus.OK);
+        return ResponseEntity.ok(new Message("ok"));
     }
 
 }

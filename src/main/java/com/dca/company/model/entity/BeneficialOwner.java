@@ -13,10 +13,11 @@ import java.io.Serializable;
  * Created by denis on 10/02/16.
  */
 @Entity
+@Table(name = "Beneficial")
 @Data
 @ToString
 @EqualsAndHashCode
-public class Employee implements Serializable {
+public class BeneficialOwner implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -24,13 +25,16 @@ public class Employee implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Size(min = 5, max = 150, message = "{employee.name.size}")
-    @NotNull(message = "{employee.name.notnull}")
+    @Size(min = 5, max = 150, message = "{beneficialOwner.name.size}")
+    @NotNull(message = "{beneficialOwner.name.notnull}")
     @Column(nullable = false, length = 150)
     private String name;
 
     @ManyToOne
     @JoinColumn(name = "company_id")
     private Company company;
+
+    @Transient
+    private Long companyId;
 
 }

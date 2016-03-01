@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
   <head>
-    <title>Integration Company With Spring Boot</title>
+    <title th:text="#{company.general.title}"></title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" href="../../css/bootstrap.min.css"/>
     <link rel="stylesheet" th:href="@{/css/bootstrap-theme.min.css}" href="../../css/bootstrap-theme.min.css"/>
   </head>
@@ -20,7 +20,7 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="company"><a th:href="@{/}" href="list.html" th:title="#{company.title}">#{company.title}</a></li>
+            <li class="company"><a th:href="@{/}" href="list.html" th:title="#{company.title}" th:text="#{company.title}"></a></li>
           </ul>
         </div>
         
@@ -34,9 +34,7 @@
       <div id="msgWarning" class="alert alert-warning alert-dismissible" style="display: none" role="alert"></div>
       <div id="msgSuccess" class="alert alert-info alert-dismissible" style="display: none" role="alert"></div>
       
-      <div layout:fragment="content">
-        Principal
-      </div>
+      <div layout:fragment="content"></div>
     </div>
     
     <script src="../../js/jquery-1.7.2.js" th:src="@{/js/jquery-1.11.3.min.js}" type="text/javascript"></script>

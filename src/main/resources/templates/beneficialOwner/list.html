@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+  layout:decorator="layout">
+  <body>
+    
+    <h1 layout:fragment="header" th:utext="#{beneficialOwner.list.title}">beneficialOwner</h1>
+    <div layout:fragment="content" class="container">
+      <div class="col-md-12">
+        <address class="nameCompany"></address>
+      </div>
+      <div class="pull-right">
+        <a href="form.html" th:text="#{beneficialOwner.insert}" th:href="@{/?formBeneficialOwner(companyId=${id})}"></a>
+      </div>
+
+      <input type="hidden" name="id" th:value="${id}" />
+
+      <table id="datatable" class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <td th:text="#{beneficialOwner.list.name}"></td>
+            <td></td>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+
+    <script layout:fragment="jsOnPage">
+    /*<![CDATA[*/
+        var parameters;
+        var companyId = $('input[name="id"]').val();
+        
+        function buildTable() {
+          clearMessages();
+          $.ajax({
+            url: "/beneficialOwner/company/"+companyId,
+            dataType: 'json',
+            type: 'GET',
+            success: function(json) {
+              var html = "";
+              $("#datatable").find("tbody").html("");
+              if (!json.items) {
+            	  return;
+              }
+              
+              $.each(json.items, function(index, data){
+                html += "<tr>";
+                html += "<td><a href='"+ (data.id ? "?formBeneficialOwner&companyId="+companyId+"&id="+ data.id : "") +"' title='Edit Beneficial Company (" + (data.id ? data.id : "") + ")'>" + (data.name ? data.name : "" ) + " </a></td>";
+                html += "<td><a href='#' onclick='delBeneficialOwner("+ (data.id ? data.id : "") +")' title='Remove Beneficial Owner (" + (data.id ? data.id : "") + ")'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></a></td>";
+                html += "</tr>"
+              });
+              
+        	  $("#datatable").find("tbody").append(html);
+            },
+            error: function(data){
+              showError("Data not found");
+              console.log(data);
+            }
+          });
+        }
+        
+        function delBeneficialOwner(beneficialOwnerId) {
+          if (!beneficialOwnerId) {
+            return;
+          }
+          clearMessages();
+          $.ajax({
+            url: "/beneficialOwner/"+beneficialOwnerId,
+            dataType: 'json',
+            type: 'DELETE',
+            success: function(data) {
+              buildTable();
+              showSuccess('Beneficial Owner has been removed.');
+            },
+            error: function(data){
+              showError("Could not remove the beneficial owner: " + data.statusText);
+              console.log(data);
+            }
+          });
+        }
+
+        function findCompany() {
+          clearMessages();
+
+          $.ajax({
+            url: "/company/"+companyId,
+            dataType: 'json',
+            success: function(json) {
+              var content = '<p>Company: <strong>' + json.name + '</strong></p>';
+              $('.nameCompany').append(content);
+            },
+            error: function(data){
+              showError("Could not get the company.");
+              console.log(data);
+            }
+          });
+        }
+        
+        $(document).ready(function() {
+          findCompany();
+          buildTable();
+          activeNavigation('beneficialOwner');
+        });
+    /*]]>*/
+    </script>
+  </body>
+</html>

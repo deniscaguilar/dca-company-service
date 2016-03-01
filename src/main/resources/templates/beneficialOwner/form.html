@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+  layout:decorator="layout">
+  <body>
+    <h1 layout:fragment="header" th:utext="#{beneficialOwner.form.title(${id} != null ? #{beneficialOwner.title.edit} : #{beneficialOwner.title.insert})}"></h1>
+    <div layout:fragment="content" class="container">
+      <form class="mainForm">
+        <div class="col-md-12 text-right">
+          <a th:href="@{/?beneficialOwner(id=${companyId})}" href="list.html" th:text="#{beneficialOwner.list.title.return}"></a>
+        </div>
+        <input type="hidden" name="id" th:value="${id}" />
+        <input type="hidden" name="companyId" th:value="${companyId}" />
+
+        <div class="col-md-12"></div>
+        
+        <div class="col-md-8 form-group">
+          <label for="name" th:text="#{company.list.name}"></label>
+          <input type="text" name="name" class="form-control" th:placeholder="#{beneficialOwner.form.placeholder.name}" />
+        </div>
+
+        <div class="col-md-12 "></div>
+
+        <div class="col-md-12 form-group">
+          <button type="button" class="btn btn-lg btn-app btn-primary" 
+            th:text="#{company.form.btn.save}"></button>
+        </div>
+      </form>
+
+    </div>
+    <script layout:fragment="jsOnPage" th:inline="javascript">
+    /*<![CDATA[*/
+      var beneficialOwnerId = /*[[${id}]]*/ 0;
+      var companyId = $('input[name="companyId"]').val();
+
+      function fillForm(data) {
+    	$('input[name="name"]').val(data && data.name ? data.name : "");
+      }
+      
+      function findBeneficialCompany() {
+        clearMessages();
+        $(".btn-app").prop('disabled', true);
+        
+        $.ajax({
+          url: "/beneficialOwner/"+beneficialOwnerId,
+          dataType: 'json',
+          success: function(json) {
+        	if (json) {
+              fillForm(json);
+              $(".btn-app").prop('disabled', false);
+        	}
+          },
+          error: function(data){
+        	showError("Could not get the beneficial owner.");
+            console.log(data);
+          }
+        });
+      }
+      
+      function sendBeneficialOwner() {
+        clearMessages();
+    	if (!$(".mainForm").valid()) {
+          return;
+        }
+        
+        $(".btn-app").prop('disabled', true);
+    	var fields = $(".mainForm :input");
+        var beneficialOwner = {};
+        $.each(fields, function(index, data){
+          if (data.type == 'text' || data.type == 'hidden') {
+            var name = data.name;
+            if (name != '') {
+              beneficialOwner[name] = data.value;
+            }
+          }
+        });
+        
+        var requestType = beneficialOwnerId != null ? "PUT" : "POST";
+        
+        var json = JSON.stringify(beneficialOwner);
+
+        $.ajax({
+          headers: { 
+            'Content-Type': 'application/json' 
+          },
+          type: requestType,
+
+          url: "/beneficialOwner",
+          data: json,
+          success: function(data) {
+            var urlHref = "/?beneficialOwner&id="+companyId;
+            $(location).attr('href',urlHref);
+          },
+          error: function(data) {
+        	$(".btn-app").prop('disabled', false);
+        	var msgError;
+        	if (data.responseText) {
+        	  var responseText = JSON.parse(data.responseText);
+        	  msgError = responseText["message"];
+            } else {
+              msgError = data.statusText;
+            }
+        	showError("Could not save the beneficial owner: "+msgError);
+            console.log(data);
+          }
+        });
+      }
+      
+      $(document).ready(function() {
+        activeNavigation('beneficialOwner');
+        
+        if (beneficialOwnerId) {
+          findBeneficialCompany();
+        }
+        
+        $(".btn-app").click(function(e){
+          e.preventDefault();
+          sendBeneficialOwner();
+        });
+        
+        $(".mainForm").validate({
+          rules: {
+            name: {
+              minlength: 5,
+              maxlength: 150,
+              required: true
+            }
+          },
+          messages: {
+            name: {
+              minlength: 'Enter at least 5 characters.',
+              maxlength: 'Enter a maximum of 150 characters.',
+              required: 'Please enter name of beneficial owner.'
+            }
+          },
+          highlight: function(element) {
+            $(element).closest('.form-group').addClass('has-error');
+          },
+          unhighlight: function(element) {
+            $(element).closest('.form-group').removeClass('has-error');
+          }
+        });
+      });
+    /*]]>*/
+    </script>
+  </body>
+</html>

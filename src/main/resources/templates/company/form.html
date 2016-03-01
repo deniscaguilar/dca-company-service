@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+  layout:decorator="layout">
+  <body>
+    <h1 layout:fragment="header" th:utext="#{company.form.title(${id} != null ? #{company.title.edit} : #{company.title.insert})}"></h1>
+    <div layout:fragment="content" class="container">
+      <form class="mainForm">
+        <div class="col-md-12 text-right">
+          <a th:href="@{/}" href="list.html" th:text="#{company.list.title.return}"></a>
+        </div>
+        <input type="hidden" name="id" th:value="${id}" />
+
+        <div class="col-md-12"></div>
+        
+        <div class="col-md-6 form-group">
+          <label for="name" th:text="#{company.list.name}"></label>
+          <input type="text" name="name" class="form-control" th:placeholder="#{company.form.placeholder.name}" />
+        </div>
+        <div class="col-md-6">
+          <label for="address" th:text="#{company.list.address}"></label>
+          <input type="text" name="address" class="form-control" th:placeholder="#{company.form.placeholder.address}" />
+        </div>
+
+        <div class="col-md-12 "></div>
+
+        <div class="col-md-6 form-group">
+          <label for="city" th:text="#{company.list.city}"></label>
+          <input type="text" name="city" class="form-control" th:placeholder="#{company.form.placeholder.city}" />
+        </div>
+        <div class="col-md-6">
+          <label for="country" th:text="#{company.list.country}"></label>
+          <input type="text" name="country" class="form-control" th:placeholder="#{company.form.placeholder.country}" />
+        </div>
+
+        <div class="col-md-12 "></div>
+
+        <div class="col-md-4 form-group">
+          <label for="email" th:text="#{company.list.email}">cidade</label>
+          <input type="text" name="email" class="form-control" th:placeholder="#{company.form.placeholder.email}" />
+        </div>
+
+        <div class="col-md-4">
+          <label for="phone" th:text="#{company.list.phone}">cidade</label>
+          <input type="text" name="phone" class="form-control" th:placeholder="#{company.form.placeholder.phone}" />
+        </div>
+        
+        <div class="col-md-12 form-group">
+          <button type="button" class="btn btn-lg btn-app btn-primary" 
+            th:text="#{company.form.btn.save}"></button>
+        </div>
+      </form>
+      
+      <form id="forwardForm" method="GET" action="/"></form>
+    </div>
+    <script layout:fragment="jsOnPage" th:inline="javascript">
+    /*<![CDATA[*/
+      var companyId = /*[[${id}]]*/ 0;
+    
+      function fillForm(data) {
+    	$('input[name="name"]').val(data && data.name ? data.name : "");
+        $('input[name="address"]').val(data && data.address ? data.address : "");
+        $('input[name="city"]').val(data && data.city ? data.city : "");
+        $('input[name="country"]').val(data && data.country ? data.country : "");
+        $('input[name="email"]').val(data && data.email ? data.email : "");
+        $('input[name="phone"]').val(data && data.phone ? data.phone : "");
+      }
+      
+      function findCompany() {
+        clearMessages();
+        $(".btn-app").prop('disabled', true);
+        
+        $.ajax({
+          url: "/company/"+companyId,
+          dataType: 'json',
+          success: function(json) {
+        	if (json) {
+              fillForm(json);
+              $(".btn-app").prop('disabled', false);
+        	}
+          },
+          error: function(data){
+        	showError("Could not get the company.");
+            console.log(data);
+          }
+        });
+      }
+      
+      function sendCompany() {
+        clearMessages();
+    	if (!$(".mainForm").valid()) {
+          return;
+        }
+        
+        $(".btn-app").prop('disabled', true);
+    	var fields = $(".mainForm :input");
+        var company = {};
+        $.each(fields, function(index, data){
+          if (data.type == 'text' || data.type == 'hidden') {
+            var name = data.name;
+            if (name != '') {
+              company[name] = data.value;
+            }
+          }
+        });
+        
+        var requestType = companyId != null ? "PUT" : "POST";
+        
+        var json = JSON.stringify(company);
+        $.ajax({
+          headers: { 
+            'Content-Type': 'application/json' 
+          },
+          type: requestType,
+          url: "/company",
+          data: json,
+          success: function(data) {
+            $("#forwardForm").submit();
+          },
+          error: function(data) {
+        	$(".btn-app").prop('disabled', false);
+        	var msgError;
+        	if (data.responseText) {
+        	  var responseText = JSON.parse(data.responseText);
+        	  msgError = responseText["message"];
+            } else {
+              msgError = data.statusText;
+            }
+        	showError("Could not save the company: "+msgError);
+            console.log(data);
+          }
+        });
+      }
+      
+      $(document).ready(function() {
+        activeNavigation('company');
+        
+        if (companyId) {
+          findCompany();
+        }
+        
+        $(".btn-app").click(function(e){
+          e.preventDefault();
+          sendCompany();
+        });
+        
+        $(".mainForm").validate({
+          rules: {
+            name: {
+              minlength: 5,
+              maxlength: 100,
+              required: true
+            },
+            address: {
+              minlength: 10,
+              maxlength: 200,
+              required: true
+            },
+            city: {
+              minlength: 5,
+              maxlength: 80,
+              required: true
+            },
+            country: {
+              minlength: 5,
+              maxlength: 50,
+              required: true
+            },
+            email: {
+              email: true,
+              maxlength: 100
+            },
+            phone: {
+              maxlength: 20
+            }
+          },
+          messages: {
+            name: {
+              minlength: 'Enter at least 5 characters.',
+              maxlength: 'Enter a maximum of 100 characters.',
+              required: 'Please enter name of company.'
+            },
+            address: {
+              minlength: 'Enter at least 10 characters.',
+              maxlength: 'Enter a maximum of 200 characters.',
+              required: 'Please enter the address.'
+            },
+            city: {
+              minlength: 'Enter at least 5 characters.',
+              maxlength: 'Enter a maximum of 80 characters.',
+              required: 'Please enter the city.'
+            },
+            country: {
+              minlength: 'Enter at least 5 characters.',
+              maxlength: 'Enter a maximum of 50 characters.',
+              required: 'Please enter the country.'
+            },
+            email: {
+              maxlength: 'Enter a maximum of 100 characters.',
+              email: 'Please enter a valid email.'
+            },
+            phone: {
+              maxlength: 'Enter a maximum of 20 characters.'
+            }
+          },
+          highlight: function(element) {
+            $(element).closest('.form-group').addClass('has-error');
+          },
+          unhighlight: function(element) {
+            $(element).closest('.form-group').removeClass('has-error');
+          }
+        });
+      });
+    /*]]>*/
+    </script>
+  </body>
+</html>

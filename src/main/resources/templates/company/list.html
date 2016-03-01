@@ -4,21 +4,22 @@
   layout:decorator="layout">
   <body>
     
-    <h1 layout:fragment="header" th:utext="#{company.list.title}">companies</h1>
+    <h1 layout:fragment="header" th:utext="#{company.list.title}">company</h1>
     <div layout:fragment="content" class="container">
       <div class="pull-right">
-        <a href="form.html" th:href="@{/(form)}">#{company.insert}</a>
+        <a href="form.html" th:text="#{company.insert}" th:href="@{/(form)}"></a>
       </div>
       
       <table id="datatable" class="table table-bordered table-striped">
         <thead>
           <tr>
-            <td th:text="#{company.list.logradouro}">logradouro</td>
-            <td th:text="#{company.list.numero}">numero</td>
-            <td th:text="#{company.list.complemento}">complemento</td>
-            <td th:text="#{company.list.cep}">cep</td>
-            <td th:text="#{company.list.bairro}">bairro</td>
-            <td th:text="#{company.list.cidade}">cidade</td>
+            <td th:text="#{company.list.name}"></td>
+            <td th:text="#{company.list.address}"></td>
+            <td th:text="#{company.list.city}"></td>
+            <td th:text="#{company.list.country}"></td>
+            <td th:text="#{company.list.email}"></td>
+            <td th:text="#{company.list.phone}"></td>
+            <td></td>
             <td></td>
             <td></td>
           </tr>
@@ -47,41 +48,42 @@
               
               $.each(json.items, function(index, data){
                 html += "<tr>";
-                html += "<td><a href='"+ (data.id ? "?formulario&id="+ data.id : "") +"' title='Editar Endereço (" + (data.id ? data.id : "") + ")'>" + (data.name ? data.name : "" ) + " </a></td>";
+                html += "<td><a href='"+ (data.id ? "?form&id="+ data.id : "") +"' title='Edit Company (" + (data.id ? data.id : "") + ")'>" + (data.name ? data.name : "" ) + " </a></td>";
                 html += "<td>" + (data.address? data.address : "") + "</td>";
                 html += "<td>" + (data.city ? data.city : "")  + "</td>";
                 html += "<td>" + (data.country ? data.country : "" ) + "</td>";
                 html += "<td>" + (data.email ? data.email : "" ) + "</td>";
                 html += "<td>" + (data.phone ? data.phone : "" ) + "</td>";
-                html += "<td><a href='"+ (data.id ? "?detalhe&id="+ data.id : "") +"' title='Visualizar Endereço (" + (data.id ? data.id : "") + ")'><span class='glyphicon glyphicon-search' aria-hidden='true'></span></a></td>";
-                html += "<td><a href='#' onclick='delEndereco("+ (data.id ? data.id : "") +")' title='Remover Endereço (" + (data.id ? data.id : "") + ")'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></a></td>";
+                html += "<td><a href='"+ (data.id ? "?beneficialOwner&id="+ data.id : "") +"' title='View Beneficial Owner(s) (" + (data.id ? data.id : "") + ")'><span class='glyphicon glyphicon-user' aria-hidden='true'></span></a></td>";
+                html += "<td><a href='"+ (data.id ? "?detail&id="+ data.id : "") +"' title='Detail Company (" + (data.id ? data.id : "") + ")'><span class='glyphicon glyphicon-search' aria-hidden='true'></span></a></td>";
+                html += "<td><a href='#' onclick='delCompany("+ (data.id ? data.id : "") +")' title='Remove Company (" + (data.id ? data.id : "") + ")'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></a></td>";
                 html += "</tr>"
               });
               
         	  $("#datatable").find("tbody").append(html);
             },
             error: function(data){
-              showError("Register not found");
+              showError("Data not found");
               console.log(data);
             }
           });
         }
         
-        function delEndereco(enderecoId) {
-          if (!enderecoId) {
+        function delCompany(companyId) {
+          if (!companyId) {
             return;
           }
           clearMessages();
           $.ajax({
-            url: "/company/"+enderecoId,
+            url: "/company/"+companyId,
             dataType: 'json',
             type: 'DELETE',
-            success: function(json) {
+            success: function(data) {
               buildTable();
-              showSuccess('Endereço foi excluído!');
+              showSuccess('Company has been removed.');
             },
             error: function(data){
-              showError("Não foi possivel remover endereço: "+data.statusText);
+              showError("Could not remove the company: " + data.statusText);
               console.log(data);
             }
           });
