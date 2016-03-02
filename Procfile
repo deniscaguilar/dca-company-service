@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -Dserver.port=8188 -jar target/dca-company-service-1.0.0-SNAPSHOT.jar
+web: java $JAVA_OPTS -Dserver.port=$PORT -jar target/dca-company-service-1.0.0-SNAPSHOT.jar
