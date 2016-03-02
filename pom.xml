@@ -26,8 +26,6 @@
         <guava.version>r09</guava.version>
         <lombok.version>1.16.4</lombok.version>
         <jayway-jsonpath.version>0.8.1</jayway-jsonpath.version>
-
-        <docker.image.prefix>dca</docker.image.prefix>
     </properties>
 
     <dependencies>
@@ -116,22 +114,6 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <mainClass>com.dca.company.config.CompanyApplication</mainClass>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>0.2.3</version>
-                <configuration>
-                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
-                    <dockerDirectory>src/main/docker</dockerDirectory>
-                    <resources>
-                        <resource>
-                            <targetPath>/</targetPath>
-                            <directory>${project.build.directory}</directory>
-                            <include>${project.build.finalName}.jar</include>
-                        </resource>
-                    </resources>
                 </configuration>
             </plugin>
         </plugins>
