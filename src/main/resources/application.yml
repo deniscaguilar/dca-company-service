@@ -7,3 +7,5 @@ spring:
     date-format: yyyy/MM/dd
   thymeleaf:
     cache: false
+server:
+  port: 8188
