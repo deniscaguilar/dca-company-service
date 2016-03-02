@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -jar target/*.jar
+web: java -jar target/dca-company-service-1.0.0-SNAPSHOT.jar
