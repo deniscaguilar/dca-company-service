@@ -1,8 +1,8 @@
 package com.dca.company.controller.controller;
 
-import com.dca.company.model.view.Message;
 import com.dca.company.model.entity.Company;
 import com.dca.company.model.view.ListCompany;
+import com.dca.company.model.view.Message;
 import com.dca.company.service.CompanyService;
 import com.google.common.base.Preconditions;
 import org.springframework.beans.factory.annotation.Autowired;

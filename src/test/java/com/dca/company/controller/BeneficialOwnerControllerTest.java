@@ -1,8 +1,8 @@
 package com.dca.company.controller;
 
 import com.dca.company.config.CompanyApplication;
-import com.dca.company.model.entity.Company;
 import com.dca.company.model.entity.BeneficialOwner;
+import com.dca.company.model.entity.Company;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
