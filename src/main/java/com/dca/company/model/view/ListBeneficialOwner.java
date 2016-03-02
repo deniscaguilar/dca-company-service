@@ -7,9 +7,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by denis on 10/02/16.
- */
 @Data
 public class ListBeneficialOwner implements Serializable {
 

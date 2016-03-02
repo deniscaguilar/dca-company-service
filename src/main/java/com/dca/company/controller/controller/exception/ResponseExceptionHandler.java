@@ -39,7 +39,7 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(InvalidRequestException.class)
-    protected ResponseEntity<Object> handleInvalidRequest(RuntimeException e, WebRequest request) {
+    public ResponseEntity<Object> handleInvalidRequest(RuntimeException e, WebRequest request) {
         InvalidRequestException ire = (InvalidRequestException) e;
         List<FieldErrorResource> fieldErrorResources = new ArrayList<>();
         List<FieldError> fieldErrors = ire.getErrors().getFieldErrors();
@@ -57,7 +57,7 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    protected ResponseEntity<Object> handleGlobalException(Exception e, WebRequest request) {
+    public ResponseEntity<Object> handleGlobalException(Exception e, WebRequest request) {
         ErrorResource error = errorResource("UnexpectedError", e.getMessage());
         return handleExceptionInternal(e, error, getHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
     }

@@ -10,9 +10,6 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
-/**
- * Created by denis on 10/02/16.
- */
 @Entity
 @Data
 @ToString(exclude = "id")

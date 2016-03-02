@@ -3,8 +3,8 @@ package com.dca.company.model;
 import com.dca.company.exception.ResourceNotFoundException;
 import com.dca.company.model.entity.BeneficialOwner;
 import com.dca.company.model.repository.BeneficialOwnerRepository;
-import com.dca.company.service.CompanyService;
 import com.dca.company.service.BeneficialOwnerService;
+import com.dca.company.service.CompanyService;
 import com.dca.company.service.impl.BeneficialOwnerServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,7 +29,7 @@ public class BeneficialOwnerServiceTest {
     @Mock
     private BeneficialOwner beneficialOwner;
 
-    private Long id = 1l;
+    private final Long id = 1l;
 
     @Before
     public void setup(){
@@ -37,12 +37,6 @@ public class BeneficialOwnerServiceTest {
         beneficialOwnerService = new BeneficialOwnerServiceImpl(beneficialOwnerRepository, companyService);
         when(beneficialOwnerRepository.findOne(id)).thenReturn(beneficialOwner);
         when(beneficialOwner.getId()).thenReturn(id);
-    }
-
-    @Test
-    public void shouldSaveBeneficialOwnerWhenDoesNotExist(){
-        when(beneficialOwner.getId()).thenReturn(id);
-        beneficialOwnerService.save(beneficialOwner);
     }
 
     @Test(expected = ResourceNotFoundException.class)

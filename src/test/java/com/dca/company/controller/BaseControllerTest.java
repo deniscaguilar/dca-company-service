@@ -25,7 +25,7 @@ public abstract class BaseControllerTest {
     }
 
     protected static class SetContentTypeResultHandler implements ResultHandler {
-        private String contentType;
+        private final String contentType;
 
         private SetContentTypeResultHandler(String contentType) {
             this.contentType = contentType;

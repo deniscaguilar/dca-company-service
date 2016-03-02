@@ -13,9 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-/**
- * Created by denis on 10/02/16.
- */
 @Service
 @Transactional(rollbackFor = Exception.class)
 @Slf4j

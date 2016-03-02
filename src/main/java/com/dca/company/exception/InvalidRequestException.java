@@ -2,9 +2,6 @@ package com.dca.company.exception;
 
 import org.springframework.validation.Errors;
 
-/**
- * Created by denis on 10/02/16.
- */
 public class InvalidRequestException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;

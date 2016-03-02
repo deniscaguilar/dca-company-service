@@ -9,9 +9,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.client.RestTemplate;
 
-/**
- * Created by denis on 10/02/16.
- */
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.dca.company.service", "com.dca.company.controller.controller"})
 @EntityScan(basePackages = "com.dca.company.model.entity")

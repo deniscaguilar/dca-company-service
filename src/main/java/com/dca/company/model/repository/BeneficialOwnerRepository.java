@@ -7,9 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-/**
- * Created by denis on 10/02/16.
- */
 @Repository
 public interface BeneficialOwnerRepository extends JpaRepository<BeneficialOwner, Long> {
 

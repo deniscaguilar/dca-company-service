@@ -30,7 +30,7 @@ public class CompanyServiceTest {
     @Mock
     List<Company> listCompany;
 
-    private Long id = 1l;
+    private final Long id = 1l;
 
     @Before
     public void setup(){

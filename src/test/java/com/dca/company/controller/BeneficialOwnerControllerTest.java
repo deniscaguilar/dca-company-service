@@ -23,9 +23,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/**
- * Created by denis on 12/02/16.
- */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = CompanyApplication.class)
 @WebAppConfiguration
@@ -71,12 +68,9 @@ public class BeneficialOwnerControllerTest extends BaseControllerTest {
 
     @Test
     public void shouldInsertNewBeneficialOwnerValid() throws Exception {
-        Company c = new Company();
-        c.setId(1l);
-
         BeneficialOwner e = new BeneficialOwner();
         e.setName("Beneficial Owner Test");
-        e.setCompany(c);
+        e.setCompanyId(1l);
 
         this.mvc.perform(post("/beneficialOwner").contentType(MediaType.APPLICATION_JSON)
                 .content(convertObjectToJsonBytes(e))
@@ -84,6 +78,33 @@ public class BeneficialOwnerControllerTest extends BaseControllerTest {
                 .andDo(setContentType("charset=utf-8"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("id", greaterThanOrEqualTo(1)));
+    }
+
+    @Test
+    public void shouldTryInsertNewBeneficialOwnerWithCompanyIdNullAndThrowBadGatewayException() throws Exception {
+        BeneficialOwner e = new BeneficialOwner();
+        e.setName("Beneficial Owner Test");
+
+        this.mvc.perform(post("/beneficialOwner").contentType(MediaType.APPLICATION_JSON)
+                .content(convertObjectToJsonBytes(e))
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(setContentType("charset=utf-8"))
+                .andExpect(status().isBadGateway())
+                .andDo(print());
+    }
+
+    @Test
+    public void shouldTryInsertNewBeneficialOwnerWithCompanyIdInvalidAndThrowResourceNotFoundException() throws Exception {
+        BeneficialOwner e = new BeneficialOwner();
+        e.setName("Beneficial Owner Test");
+        e.setCompanyId(88l);
+
+        this.mvc.perform(post("/beneficialOwner").contentType(MediaType.APPLICATION_JSON)
+                .content(convertObjectToJsonBytes(e))
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(setContentType("charset=utf-8"))
+                .andExpect(status().isNotFound())
+                .andDo(print());
     }
 
     @Test
@@ -115,6 +136,7 @@ public class BeneficialOwnerControllerTest extends BaseControllerTest {
         String json = r.getResponse().getContentAsString();
         BeneficialOwner e = convertJsonToObject(json, BeneficialOwner.class);
         e.setName(e.getName() + " - modificado");
+        e.setCompanyId(e.getCompany().getId());
 
         this.mvc.perform(put("/beneficialOwner").contentType(MediaType.APPLICATION_JSON)
                 .content(convertObjectToJsonBytes(e))

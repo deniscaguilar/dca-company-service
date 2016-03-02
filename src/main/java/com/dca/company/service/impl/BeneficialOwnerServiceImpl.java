@@ -15,9 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Created by denis on 10/02/16.
- */
 @Service
 @Transactional(rollbackFor = Exception.class)
 @Slf4j
@@ -38,7 +35,6 @@ public class BeneficialOwnerServiceImpl implements BeneficialOwnerService {
         log.info("Saving beneficial owner: {}", beneficialOwner);
 
         Company company = companyService.findById(beneficialOwner.getCompanyId());
-        Optional.ofNullable(company).orElseThrow(ResourceNotFoundException::new);
 
         beneficialOwner.setCompany(company);
         return beneficialOwnerRepository.saveAndFlush(beneficialOwner);
