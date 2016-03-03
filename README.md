@@ -1,38 +1,38 @@
 # DCA COMPANY SERVICE
 
-It's an RESTful service responsible for manipulating data of the companies. 
+It's a RESTful service responsible for mmanipulating companies' data. 
 
-In this application, I embeded application server and database.
+In this application, there is an embedded application server and a database.
 
-This is a application that run a Spring Boot application on Heroku. You can test the application [here](https://dca-company-web.herokuapp.com).
+This application is running under Spring Boot and it's deployed on Heroku. You can test the application [here](https://dca-company-web.herokuapp.com).
 
-**Note that it is only running on a free dyno in the heroku, so it may take some time before it responds.**
+**Note that it is running on a free dyno in the heroku, so it may take some time before it responds.**
 
 ## Used Technologies
 
 **1. Java version 8.**
 
-**2. Google Guava:** Used for define preconditions for the validations.
+**2. Google Guava:** It's used for define preconditions for the validations.
 
-**3. JPA / Hibernate:** For mapping persistent entities in domains objects.
+**3. JPA / Hibernate:** Mapping persistent entities in domains objects.
 
-**4. Lombok:** For generation of the getters, setters, toString and hashCode.
+**4. Lombok:** Generation of the getters, setters, toString and hashCode.
 
-**5. Bean Validations:** Framework for definion of rules of validation in JPA entities by annotations.
+**5. Bean Validations:** Framework used for rules validations in JPA entities using annotations.
 
-**6. Logback:** For generation of logs.
+**6. Logback:** Generation of logs.
 
-**7. Spring Data JPA:** Tecnologia utilizada gerar parte do código relacionado a camada de persistência. Na aplicação foi escrito os contratos de persistência, que realizam a criação dos comandos de manipulação (CRUD), consultas simples e complexas.
+**7. Spring Data JPA:** It's used to generate part of the code of the persistence layer. In the application was described the persistence contracts,performing the creation of manipulation's command (CRUD) and queries simple and complex.
 
 **8. Spring Web MVC:** Web Framework used as MVC solution for definition of components following the REST architecture model.
 
 **9. Jackson:** API for convert the Java data in Json and vice versa.
 
-**10. Thymeleaf:** Engine for generation of web pages based in the definition of templates and fragments. I use for the integration to Spring Web MVC and for create HTML pages of the application.
+**10. Thymeleaf:** Engine for generation of web pages based in the definition of templates and fragments. I use it for the integration between Spring Web MVC and HTML pages.
 
-**11. JQuery:** Access the REST layer by Ajax, responsible by the data manipulation in the HTML structure.
+**11. JQuery:** Access the REST layer by Ajax, responsible for the data manipulation in the HTML structure.
 
-**12. Bootstrap:** CSS solution to facilitate the construction of the layout of the HTML pages.
+**12. Bootstrap:** CSS solution to facilitate the layer view construction.
 
 ## Additional Technologies
 
