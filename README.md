@@ -57,13 +57,13 @@ The integration of the pages with the data occurs asynchronously, always making 
 ## Usage In Local Machine
 
 ###### Pré-requisitos
-
+```
 JDK - Java version 1.8.
 
 Any Java IDE with support Maven.
 
 Maven for build and dependecies.
-
+```
 ###### After download the fonts, for execute the application execute the maven command:
 ```
 $ mvn clean package spring-boot:run
