@@ -118,15 +118,19 @@
             $("#forwardForm").submit();
           },
           error: function(data) {
-        	$(".btn-app").prop('disabled', false);
-        	var msgError;
-        	if (data.responseText) {
-        	  var responseText = JSON.parse(data.responseText);
-        	  msgError = responseText["message"];
+            $(".btn-app").prop('disabled', false);
+            var msgError;
+            if (data.responseText) {
+              var responseText = JSON.parse(data.responseText);
+              if (responseText.fieldErrors) {
+                $.each(responseText.fieldErrors, function (index, obj) {
+                  msgError = obj.field + ": " + obj.message;
+                })
+              }
             } else {
               msgError = data.statusText;
             }
-        	showError("Could not save the company: "+msgError);
+            showError("Could not save the company: "+msgError);
             console.log(data);
           }
         });

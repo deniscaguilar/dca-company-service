@@ -42,7 +42,7 @@ public class Company implements Serializable {
     @Column(nullable = false, length = 50)
     private String country;
 
-    @Pattern(regexp = ".+@.+\\.[a-z]+", message = "{company.email.invalido}")
+    @Pattern(regexp = "$|.+@.+\\.[a-z]+", message = "{company.email.invalido}")
     @Column(length = 100)
     private String email;
 

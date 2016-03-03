@@ -1,10 +1,13 @@
-<snippet>
-  <content><![CDATA[
-# ${1:DCA COMPANY SERVICE}
+# DCA COMPANY SERVICE
 
-It's an RESTfull service responsible for manipulating data of the companies. 
+It's an RESTful service responsible for manipulating data of the companies. 
 
-## Installation
+This is a small demo application for showing how to run a Spring Boot application on Heroku. 
+For more information have a look at the accompanying blog post. 
+You can test the application [here](https://www.google.com). 
+Note that it is only running on a free dyno, so it may take some time before it responds.
+
+## Running the application
 
 TODO: Describe the installation process
 
@@ -12,7 +15,7 @@ TODO: Describe the installation process
 
 TODO: Write usage instructions
 
-## Contributing
+## Tecnologias Utilizadas
 
 1. Fork it!
 2. Create your feature branch: `git checkout -b my-new-feature`
@@ -24,13 +27,9 @@ TODO: Write usage instructions
 
 TODO: Write history
 
-## Credits
+## Considerações
 TODO: Write credits
 
 ## License
 
 TODO: Write license
-]]></content>
-  <tabTrigger>readme</tabTrigger>
-</snippet>
-

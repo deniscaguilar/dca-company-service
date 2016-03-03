@@ -91,7 +91,7 @@ public class CompanyControllerTest extends BaseControllerTest {
         c.setAddress("Address Test");
         c.setCity("City Test");
         c.setCountry("Country Test");
-        c.setEmail("emailtest@emailtest.com");
+        //c.setEmail("emailtest@emailtest.com");
         c.setPhone("111111");
 
         this.mvc.perform(post("/company").contentType(MediaType.APPLICATION_JSON)
