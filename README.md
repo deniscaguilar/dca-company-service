@@ -72,3 +72,14 @@ $ mvn clean package spring-boot:run
 ```
 http://localhost:8188/
 ```
+
+## Final Considerations
+
+###### Suggestions for Authentication's REST API 
+
+**oAuth2:** I would use because it provides a standardized mechanism for Identity Management, where all system components can interact in a safe way, usually where a client application needs access to a protected resource, acting in place of the user. They provides a token for access for allow the client application can access the rest apis
+
+###### Suggestions for redundant services
+
+I would create micro services to distribute in multiples servers, so that can perform load balancing and the redundancy of the micro services, we could use a gateway, which would be responsible for receiving the request and distribute the load among the servers that are up.
+This gateway (which could be a Eureka) would be responsible can check on which  server is on and free to make the call to service and if you had one server off, it would direct calls to the other servers, that it would also facilitate the deploy the services because we could stop a server perform the deploy and if it's all ok, would stop the other server and make deploy in the server and so on would.
